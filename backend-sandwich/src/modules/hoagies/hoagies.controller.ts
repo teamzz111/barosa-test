@@ -11,6 +11,7 @@ import {
   HttpStatus,
   HttpCode,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 
 import {
@@ -63,39 +64,11 @@ export class HoagiesController {
     description: 'Number of items per page',
   })
   @ApiResponse({ status: 200, description: 'Return the hoagies.' })
-  findAll(@Query() paginationDto: PaginationDto) {
+  findAll(
+    @Query(new ValidationPipe({ transform: true }))
+    paginationDto: PaginationDto,
+  ) {
     return this.hoagieService.findAll(paginationDto.page, paginationDto.limit);
-  }
-
-  @Get('search')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: 'Search hoagies by name or ingredients' })
-  @ApiQuery({
-    name: 'query',
-    required: true,
-    type: String,
-    description: 'Search term',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    type: Number,
-    description: 'Page number',
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    type: Number,
-    description: 'Items per page',
-  })
-  @ApiResponse({ status: 200, description: 'Return the matching hoagies.' })
-  search(@Query('query') query: string, @Query() paginationDto: PaginationDto) {
-    return this.hoagieService.search(
-      query,
-      paginationDto.page,
-      paginationDto.limit,
-    );
   }
 
   @Get('user/:userId')

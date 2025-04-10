@@ -57,40 +57,6 @@ let UserRepository = class UserRepository extends base_repository_1.BaseReposito
     async findUserById(id) {
         return this.userModel.findById(id).select('-password');
     }
-    async updateUser(id, updateUserDto) {
-        return this.userModel
-            .findByIdAndUpdate(id, updateUserDto, { new: true })
-            .select('-password');
-    }
-    async deleteUser(id) {
-        return this.userModel.findByIdAndDelete(id);
-    }
-    async searchUsers(query, page = 1, limit = 10) {
-        const skip = (page - 1) * limit;
-        const searchRegex = new RegExp(query, 'i');
-        const [users, total] = await Promise.all([
-            this.userModel
-                .find({
-                $or: [{ name: searchRegex }, { email: searchRegex }],
-            })
-                .sort({ createdAt: -1 })
-                .skip(skip)
-                .limit(limit)
-                .select('-password'),
-            this.userModel.countDocuments({
-                $or: [{ name: searchRegex }, { email: searchRegex }],
-            }),
-        ]);
-        return {
-            data: users,
-            meta: {
-                total,
-                page,
-                limit,
-                pages: Math.ceil(total / limit),
-            },
-        };
-    }
 };
 exports.UserRepository = UserRepository;
 exports.UserRepository = UserRepository = __decorate([

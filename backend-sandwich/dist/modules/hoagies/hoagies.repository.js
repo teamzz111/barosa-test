@@ -179,58 +179,6 @@ let HoagieRepository = class HoagieRepository extends base_repository_1.BaseRepo
     async addCollaborator(hoagieId, userId) {
         return this.hoagieModel.findByIdAndUpdate(hoagieId, { $addToSet: { collaborators: userId } }, { new: true });
     }
-    async searchHoagies(query, page = 1, limit = 10) {
-        const searchRegex = new RegExp(query, 'i');
-        const pipeline = [
-            {
-                $match: {
-                    $or: [{ name: searchRegex }, { 'ingredients.name': searchRegex }],
-                },
-            },
-            { $sort: { createdAt: -1 } },
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'creator',
-                    foreignField: '_id',
-                    as: 'creatorDetails',
-                },
-            },
-            { $unwind: '$creatorDetails' },
-            {
-                $lookup: {
-                    from: 'comments',
-                    localField: '_id',
-                    foreignField: 'hoagie',
-                    as: 'comments',
-                },
-            },
-            {
-                $addFields: {
-                    commentCount: { $size: '$comments' },
-                    creator: {
-                        _id: '$creatorDetails._id',
-                        name: '$creatorDetails.name',
-                        email: '$creatorDetails.email',
-                    },
-                },
-            },
-            {
-                $project: {
-                    comments: 0,
-                    creatorDetails: 0,
-                },
-            },
-        ];
-        const countPipeline = [
-            {
-                $match: {
-                    $or: [{ name: searchRegex }, { 'ingredients.name': searchRegex }],
-                },
-            },
-        ];
-        return pagination_helper_1.PaginationHelper.paginateAggregate(this.hoagieModel, pipeline, countPipeline, page, limit);
-    }
 };
 exports.HoagieRepository = HoagieRepository;
 exports.HoagieRepository = HoagieRepository = __decorate([

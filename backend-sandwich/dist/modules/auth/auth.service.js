@@ -37,14 +37,14 @@ let AuthService = class AuthService {
     }
     generateToken(user) {
         const payload = {
-            sub: user._id.toString(),
+            sub: user.email.toString(),
             email: user.email,
             name: user.name,
         };
         return {
             access_token: this.jwtService.sign(payload),
             user: {
-                id: user._id.toString(),
+                id: user.email.toString(),
                 name: user.name,
                 email: user.email,
             },

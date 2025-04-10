@@ -11,8 +11,7 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_entity_1 = require("./entities/user.entity");
 const user_service_1 = require("./user.service");
-const auth_repository_1 = require("../auth/dto/auth.repository");
-const user_controller_1 = require("./user.controller");
+const auth_repository_1 = require("../auth/auth.repository");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
@@ -21,7 +20,7 @@ exports.UsersModule = UsersModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: user_entity_1.User.name, schema: user_entity_1.UserSchema }]),
         ],
-        controllers: [user_controller_1.UsersController],
+        controllers: [],
         providers: [user_service_1.UserService, auth_repository_1.UserRepository],
         exports: [user_service_1.UserService],
     })

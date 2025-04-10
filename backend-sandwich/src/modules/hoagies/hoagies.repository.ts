@@ -67,7 +67,6 @@ export class HoagieRepository extends BaseRepository<HoagieDocument> {
       },
     ];
 
-    // Uso de PaginationHelper para manejar la paginación
     return PaginationHelper.paginateAggregate(
       this.hoagieModel,
       pipeline,
@@ -223,72 +222,6 @@ export class HoagieRepository extends BaseRepository<HoagieDocument> {
       hoagieId,
       { $addToSet: { collaborators: userId } },
       { new: true },
-    );
-  }
-
-  async searchHoagies(
-    query: string,
-    page: number = 1,
-    limit: number = 10,
-  ): Promise<PaginationResult<Hoagie>> {
-    const searchRegex = new RegExp(query, 'i');
-
-    const pipeline = [
-      {
-        $match: {
-          $or: [{ name: searchRegex }, { 'ingredients.name': searchRegex }],
-        },
-      },
-      { $sort: { createdAt: -1 } },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'creator',
-          foreignField: '_id',
-          as: 'creatorDetails',
-        },
-      },
-      { $unwind: '$creatorDetails' },
-      {
-        $lookup: {
-          from: 'comments',
-          localField: '_id',
-          foreignField: 'hoagie',
-          as: 'comments',
-        },
-      },
-      {
-        $addFields: {
-          commentCount: { $size: '$comments' },
-          creator: {
-            _id: '$creatorDetails._id',
-            name: '$creatorDetails.name',
-            email: '$creatorDetails.email',
-          },
-        },
-      },
-      {
-        $project: {
-          comments: 0,
-          creatorDetails: 0,
-        },
-      },
-    ];
-
-    const countPipeline = [
-      {
-        $match: {
-          $or: [{ name: searchRegex }, { 'ingredients.name': searchRegex }],
-        },
-      },
-    ];
-
-    return PaginationHelper.paginateAggregate(
-      this.hoagieModel,
-      pipeline,
-      countPipeline,
-      page,
-      limit,
     );
   }
 }

@@ -6,6 +6,8 @@ import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { HoagiesModule } from './modules/hoagies/hoagies.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CommentsModule } from './modules/comments/comments.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -16,6 +18,13 @@ import { AuthModule } from './modules/auth/auth.module';
     UsersModule,
     HoagiesModule,
     AuthModule,
+    CommentsModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60,
+        limit: 1000,
+      },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService],

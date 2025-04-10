@@ -14,10 +14,9 @@ async function bootstrap() {
         description: 'Enter JWT token',
         in: 'header',
     }, 'JWT-auth')
-        .setTitle('Cats example')
-        .setDescription('The cats API description')
+        .setTitle('Hoagie API')
+        .setDescription('Hoagie API')
         .setVersion('1.0')
-        .addTag('cats')
         .build();
     const documentFactory = () => swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('api', app, documentFactory);

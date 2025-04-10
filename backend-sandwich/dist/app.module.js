@@ -15,6 +15,8 @@ const users_module_1 = require("./modules/users/users.module");
 const config_1 = require("@nestjs/config");
 const hoagies_module_1 = require("./modules/hoagies/hoagies.module");
 const auth_module_1 = require("./modules/auth/auth.module");
+const comments_module_1 = require("./modules/comments/comments.module");
+const throttler_1 = require("@nestjs/throttler");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,6 +30,13 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             hoagies_module_1.HoagiesModule,
             auth_module_1.AuthModule,
+            comments_module_1.CommentsModule,
+            throttler_1.ThrottlerModule.forRoot([
+                {
+                    ttl: 60,
+                    limit: 1000,
+                },
+            ]),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

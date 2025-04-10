@@ -16,7 +16,6 @@ export declare class HoagieService {
     getCollaboratorCount(hoagieId: string): Promise<number>;
     findByCreator(creatorId: string, page?: number, limit?: number): Promise<PaginationResult<Hoagie>>;
     findByCollaborator(userId: string, page?: number, limit?: number): Promise<PaginationResult<Hoagie>>;
-    search(query: string, page?: number, limit?: number): Promise<PaginationResult<Hoagie>>;
     checkPermission(hoagieId: string, userId: string): Promise<{
         isCreator: boolean;
         isCollaborator: boolean;

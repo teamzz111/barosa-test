@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserService } from '../users/user.service';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -33,9 +34,9 @@ export class AuthService {
     return this.generateToken(user);
   }
 
-  private generateToken(user: any) {
+  private generateToken(user: User) {
     const payload = {
-      sub: user._id.toString(),
+      sub: user.email.toString(),
       email: user.email,
       name: user.name,
     };
@@ -43,14 +44,14 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
       user: {
-        id: user._id.toString(),
+        id: user.email.toString(),
         name: user.name,
         email: user.email,
       },
     };
   }
 
-  async validateUser(payload: any) {
+  async validateUser(payload: { sub: string }) {
     return this.userService.findOne(payload.sub);
   }
 }

@@ -96,12 +96,6 @@ let HoagieService = class HoagieService {
     async findByCollaborator(userId, page = 1, limit = 10) {
         return this.hoagieRepository.getHoagiesByCollaborator(userId, page, limit);
     }
-    async search(query, page = 1, limit = 10) {
-        if (!query || query.trim() === '') {
-            return this.findAll(page, limit);
-        }
-        return this.hoagieRepository.searchHoagies(query, page, limit);
-    }
     async checkPermission(hoagieId, userId) {
         const hoagie = await this.findOne(hoagieId);
         const isCreator = hoagie.creator._id.toString() === userId;

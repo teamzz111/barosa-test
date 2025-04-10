@@ -17,10 +17,9 @@ async function bootstrap() {
       },
       'JWT-auth',
     )
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Hoagie API')
+    .setDescription('Hoagie API')
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

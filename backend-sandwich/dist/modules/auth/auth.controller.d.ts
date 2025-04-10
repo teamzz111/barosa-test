@@ -7,17 +7,17 @@ export declare class AuthController {
     login(loginDto: LoginDto): Promise<{
         access_token: string;
         user: {
-            id: any;
-            name: any;
-            email: any;
+            id: string;
+            name: string;
+            email: string;
         };
     }>;
     signup(signupDto: SignupDto): Promise<{
         access_token: string;
         user: {
-            id: any;
-            name: any;
-            email: any;
+            id: string;
+            name: string;
+            email: string;
         };
     }>;
 }

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
-const auth_repository_1 = require("../auth/dto/auth.repository");
+const auth_repository_1 = require("../auth/auth.repository");
 let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
@@ -30,9 +30,6 @@ let UserService = class UserService {
         };
         return this.userRepository.createUser(userWithHashedPassword);
     }
-    async findAll(page = 1, limit = 10) {
-        return this.userRepository.findAllUsers(page, limit);
-    }
     async findOne(id) {
         const user = await this.userRepository.findUserById(id);
         if (!user) {
@@ -45,25 +42,6 @@ let UserService = class UserService {
     }
     async findByEmailWithPassword(email) {
         return this.userRepository.findByEmailWithPassword(email);
-    }
-    async update(id, updateUserDto) {
-        if (updateUserDto.password) {
-            updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
-        }
-        const updatedUser = await this.userRepository.updateUser(id, updateUserDto);
-        if (!updatedUser) {
-            throw new common_1.NotFoundException(`User with ID "${id}" not found`);
-        }
-        return updatedUser;
-    }
-    async remove(id) {
-        const result = await this.userRepository.deleteUser(id);
-        if (!result) {
-            throw new common_1.NotFoundException(`User with ID "${id}" not found`);
-        }
-    }
-    async search(query, page = 1, limit = 10) {
-        return this.userRepository.searchUsers(query, page, limit);
     }
 };
 exports.UserService = UserService;

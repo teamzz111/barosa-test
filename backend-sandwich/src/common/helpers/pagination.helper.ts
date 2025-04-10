@@ -1,19 +1,22 @@
 import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, Min } from 'class-validator';
+import { Document, Model } from 'mongoose';
 
 export interface PaginationParams {
   page?: number;
   limit?: number;
 }
 
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
+
 export interface PaginationResult<T> {
   data: T[];
-  meta: {
-    total: number;
-    page: number;
-    limit: number;
-    pages: number;
-  };
+  meta: PaginationMeta;
 }
 
 export class PaginationDto {
@@ -31,12 +34,16 @@ export class PaginationDto {
 }
 
 export class PaginationHelper {
-  static createPaginationStage(page: number = 1, limit: number = 10) {
+  static createPaginationStage(page: number = 1, limit: number = 10): any[] {
     const skip = (page - 1) * limit;
     return [{ $skip: skip }, { $limit: limit }];
   }
 
-  static createPaginationMeta(total: number, page: number, limit: number) {
+  static createPaginationMeta(
+    total: number,
+    page: number,
+    limit: number,
+  ): PaginationMeta {
     return {
       total,
       page,
@@ -45,8 +52,8 @@ export class PaginationHelper {
     };
   }
 
-  static async paginateAggregate<T>(
-    model: any,
+  static async paginateAggregate<T, D extends Document>(
+    model: Model<D>,
     pipeline: any[] = [],
     countPipeline: any[] = [],
     page: number = 1,

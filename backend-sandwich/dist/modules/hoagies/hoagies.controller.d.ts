@@ -7,7 +7,6 @@ export declare class HoagiesController {
     constructor(hoagieService: HoagieService);
     create(createHoagieDto: CreateHoagieDto, req: any): Promise<import("./entities/hoagies.entity").Hoagie>;
     findAll(paginationDto: PaginationDto): Promise<import("src/common/helpers/pagination.helper").PaginationResult<import("./entities/hoagies.entity").Hoagie>>;
-    search(query: string, paginationDto: PaginationDto): Promise<import("src/common/helpers/pagination.helper").PaginationResult<import("./entities/hoagies.entity").Hoagie>>;
     findByCreator(userId: string, paginationDto: PaginationDto): Promise<import("src/common/helpers/pagination.helper").PaginationResult<import("./entities/hoagies.entity").Hoagie>>;
     findByCollaborator(req: any, paginationDto: PaginationDto): Promise<import("src/common/helpers/pagination.helper").PaginationResult<import("./entities/hoagies.entity").Hoagie>>;
     findOne(id: string): Promise<import("./entities/hoagies.entity").Hoagie>;

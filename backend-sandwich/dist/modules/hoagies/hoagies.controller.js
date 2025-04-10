@@ -30,9 +30,6 @@ let HoagiesController = class HoagiesController {
     findAll(paginationDto) {
         return this.hoagieService.findAll(paginationDto.page, paginationDto.limit);
     }
-    search(query, paginationDto) {
-        return this.hoagieService.search(query, paginationDto.page, paginationDto.limit);
-    }
     findByCreator(userId, paginationDto) {
         return this.hoagieService.findByCreator(userId, paginationDto.page, paginationDto.limit);
     }
@@ -99,41 +96,11 @@ __decorate([
         description: 'Number of items per page',
     }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Return the hoagies.' }),
-    __param(0, (0, common_1.Query)()),
+    __param(0, (0, common_1.Query)(new common_1.ValidationPipe({ transform: true }))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [pagination_helper_1.PaginationDto]),
     __metadata("design:returntype", void 0)
 ], HoagiesController.prototype, "findAll", null);
-__decorate([
-    (0, common_1.Get)('search'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiBearerAuth)('JWT-auth'),
-    (0, swagger_1.ApiOperation)({ summary: 'Search hoagies by name or ingredients' }),
-    (0, swagger_1.ApiQuery)({
-        name: 'query',
-        required: true,
-        type: String,
-        description: 'Search term',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'page',
-        required: false,
-        type: Number,
-        description: 'Page number',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'limit',
-        required: false,
-        type: Number,
-        description: 'Items per page',
-    }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return the matching hoagies.' }),
-    __param(0, (0, common_1.Query)('query')),
-    __param(1, (0, common_1.Query)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, pagination_helper_1.PaginationDto]),
-    __metadata("design:returntype", void 0)
-], HoagiesController.prototype, "search", null);
 __decorate([
     (0, common_1.Get)('user/:userId'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

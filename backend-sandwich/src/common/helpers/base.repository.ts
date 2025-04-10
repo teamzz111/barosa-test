@@ -3,7 +3,7 @@ import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
 export abstract class BaseRepository<T extends Document> {
   constructor(protected readonly entityModel: Model<T>) {}
 
-  async create(dto: any): Promise<T> {
+  async create(dto: unknown): Promise<T> {
     const newEntity = new this.entityModel(dto);
     return newEntity.save();
   }

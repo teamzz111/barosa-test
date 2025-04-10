@@ -2,6 +2,7 @@ import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserService } from '../users/user.service';
+import { User } from '../users/entities/user.entity';
 export declare class AuthService {
     private readonly userService;
     private readonly jwtService;
@@ -9,19 +10,21 @@ export declare class AuthService {
     login(loginDto: LoginDto): Promise<{
         access_token: string;
         user: {
-            id: any;
-            name: any;
-            email: any;
+            id: string;
+            name: string;
+            email: string;
         };
     }>;
     signup(signupDto: SignupDto): Promise<{
         access_token: string;
         user: {
-            id: any;
-            name: any;
-            email: any;
+            id: string;
+            name: string;
+            email: string;
         };
     }>;
     private generateToken;
-    validateUser(payload: any): Promise<import("../users/entities/user.entity").User>;
+    validateUser(payload: {
+        sub: string;
+    }): Promise<User>;
 }

@@ -22,5 +22,4 @@ export declare class HoagieRepository extends BaseRepository<HoagieDocument> {
     }> & {
         __v: number;
     }>;
-    searchHoagies(query: string, page?: number, limit?: number): Promise<PaginationResult<Hoagie>>;
 }
